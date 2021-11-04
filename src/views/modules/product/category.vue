@@ -7,6 +7,7 @@
     >
     </el-switch>
     <el-button v-if="draggable" @click="batchSave">批量保存</el-button>
+    <el-button type="danger" @click="batchDelete">批量删除</el-button>
     <el-tree
       :data="data"
       :props="defaultProps"
@@ -17,6 +18,7 @@
       :draggable="draggable"
       :allow-drop="allowDrop"
       @node-drop="handleDrop"
+      ref="menuTree"
       ><span class="custom-tree-node" slot-scope="{ node, data }">
         <span>{{ node.label }}</span>
         <span>
@@ -294,6 +296,38 @@ export default {
         this.updateNodes = [];
         this.maxLevel = 0;
       });
+    },
+    batchDelete() {
+      let checkedNodes = this.$refs.menuTree.getCheckedNodes();
+      console.log("批量删除", checkedNodes);
+      let catIds = [];
+      for (let i = 0; i < checkedNodes.length; i++) {
+        catIds.push(checkedNodes[i].catId);
+      }
+      this.$confirm(`此操作将批量删除【${catIds}】菜单, 是否继续?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.$http({
+            url: this.$http.adornUrl("/product/category/delete"),
+            method: "post",
+            data: this.$http.adornData(catIds, false),
+          }).then(({ data }) => {
+            this.$message({
+              message: "菜单批量删除成功。",
+              type: "success",
+            });
+            //刷新菜单
+            this.getDataList();
+            //展开被拖拽节点
+            // this.expandedKey = this.pCid;
+          });
+        })
+        .catch(() => {
+          //do nothing
+        });
     },
     updateChildNodesLevel(node) {
       if (node != null && node.childNodes.length > 0) {
