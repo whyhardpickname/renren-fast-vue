@@ -1,7 +1,7 @@
-<template>
+<template> 
   <div>
     <el-upload
-      action="http://gulimall-markchern.oss-cn-shenzhen.aliyuncs.com"
+      action="http://gulimall-hello.oss-cn-beijing.aliyuncs.com"
       :data="dataObj"
       list-type="picture"
       :multiple="false" :show-file-list="showFileList"
@@ -105,4 +105,7 @@
   }
 </script>
 <style>
+
 </style>
+
+

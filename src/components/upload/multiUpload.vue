@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-upload
-      action="http://gulimall-markchern.oss-cn-shenzhen.aliyuncs.com"
+      action="http://gulimall-hello.oss-cn-beijing.aliyuncs.com"
       :data="dataObj"
       :list-type="listType"
       :file-list="fileList"
@@ -124,3 +124,5 @@ export default {
 </script>
 <style>
 </style>
+
+
